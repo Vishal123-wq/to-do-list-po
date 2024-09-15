@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish To-Do List with Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0px 12px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        #task-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #task-input:focus {
+            outline: none;
+            border-color: #0056b3;
+        }
+
+        #add-task-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #add-task-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #task-list {
+            margin-top: 20px;
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: fadeIn 0.5s forwards;
+            border-left: 5px solid #007bff;
+        }
+
+        .task-item:hover {
+            background-color: #e2e6ea;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 480px) {
+            #task-input {
+                font-size: 14px;
+            }
+
+            #add-task-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .task-item {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stylish To-Do List</h1>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="Add new task...">
+            <button type="submit" id="add-task-btn">Add Task</button>
+        </form>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const taskInput = document.getElementById('task-input');
+            const taskList = document.getElementById('task-list');
+
+            // Create a new task item
+            const taskItem = document.createElement('li');
+            taskItem.classList.add('task-item');
+
+            // Add task text
+            const taskText = document.createElement('span');
+            taskText.innerText = taskInput.value;
+            taskItem.appendChild(taskText);
+
+            // Add delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.classList.add('delete-btn');
+            taskItem.appendChild(deleteBtn);
+
+            // Add the new task to the list
+            taskList.appendChild(taskItem);
+
+            // Clear input field
+            taskInput.value = '';
+
+            // Delete task when delete button is clicked
+            deleteBtn.addEventListener('click', function() {
+                taskItem.classList.add('fadeOut');
+                taskItem.addEventListener('animationend', function() {
+                    taskItem.remove();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
